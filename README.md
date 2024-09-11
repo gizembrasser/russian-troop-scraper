@@ -32,10 +32,10 @@ pip install -r requirements.txt
 cd path/to/program/folder
 ```
 
-2. Run the program using the following command. You will be prompted to provide a range of dates and a name for the CSV file.
+2. To collect data from a range of date use the following command. Provide the start date, end date and a name for the CSV, separated by a space. For example:
 
 ```
-python main.py
+python main.py date_range 2024-09-01 2024-09-05 test
 ```
 
 3. After running the program, the troop data will be written to a CSV file in the `/data` folder.

@@ -10,6 +10,15 @@ import time
 
 
 def get_geojson_urls(date_list):
+    """
+    Function to retrieve GeoJSON URLs fro  m the DeepStateMAP website based on a list of dates.
+
+    This function uses Selenium to interact with the DeepStateMAP website, where it:
+    1. Closes all of the pop-ups
+    2. Navigates to the calendar tool.
+    3. Selects specific dates (year, month, day) from the calendar.
+    4. Extracts the GeoJSON URLs corresponding to the map data for those dates by monitoring network requests.
+    """
     # Set Chrome options
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--no-sandbox")
@@ -81,7 +90,8 @@ def get_geojson_urls(date_list):
                 if "/geojson" in request.url:
                     if request.url not in geojson_urls:
                        geojson_urls.append(request.url)
-        
+
+        print("API requests made to:", geojson_urls)
         return geojson_urls
 
     except Exception as e:
@@ -92,6 +102,13 @@ def get_geojson_urls(date_list):
 
 
 def get_troop_data(geojson_urls, date_list):
+    """
+    Function to fetch and process troop data from a list of GeoJSON URLs.
+
+    This function sends HTTP requests to a list of GeoJSON URLs, and builds a DataFrame
+    where each row contains the name of the military unit and its corresponding
+    latitude and longitude for each date in the given date list.
+    """
     try:
         all_data = {}
 
@@ -139,5 +156,3 @@ def get_troop_data(geojson_urls, date_list):
         print(f"HTTP error occurred: {http_err}")
     except Exception as err:
         print(f"An error occurred: {err}")
-
-
