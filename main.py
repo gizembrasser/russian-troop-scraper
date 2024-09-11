@@ -2,7 +2,7 @@ import argparse
 from scraper import get_geojson_urls, get_troop_data
 from utils.dates import get_date_range, get_column_names
 from utils.merge import add_date_column, clean_unit_names
-from analysis.coordinates import calculate_avg_movement
+from analysis.coordinates import calculate_total_movement
 
 
 if __name__ == "__main__":
@@ -22,7 +22,9 @@ if __name__ == "__main__":
 
     clean_names = subparsers.add_parser("clean_names", help="Remove the Ukrainian name from the column 'Militaire eenheid' and only keep the English name")
 
-    avg_movement = subparsers.add_parser("avg_movement", help="Calculate the average movement in km from a CSV file of coordinates")
+    total_movement = subparsers.add_parser("total_movement", help="Calculate the total movement for each troop in km from a CSV file of coordinates")
+    total_movement.add_argument("csv_file", help="Provide the path to the CSV file (with extension)")
+    total_movement.add_argument("output_file", help="Provide the path to the output CSV file (with extension)")
 
     args = parser.parse_args()
 
@@ -61,5 +63,8 @@ if __name__ == "__main__":
         print("Unfinished")
     
     # Command to calculate the average movement between coordinates for the Russian troops
-    if args.command == "avg_movement":
-        print("Unfinished")
+    if args.command == "total_movement":
+        csv_file = args.csv_file
+        output_file = args.output_file
+
+        df_total_movement = calculate_total_movement(csv_file, output_file)
