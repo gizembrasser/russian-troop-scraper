@@ -42,4 +42,24 @@ def get_date_range(start_date_str, end_date_str):
     except ValueError:
         print("Invalid date format. Please use yyyy-mm-dd.")
         return []
+
+
+def get_column_names(date_list):
+    month_mapping = {
+        'January': '01', 'February': '02', 'March': '03', 'April': '04',
+        'May': '05', 'June': '06', 'July': '07', 'August': '08',
+        'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    }
+
+    formatted_dates = []
+
+    for year, month, day in date_list:
+        # Convert the month name to the corresponding number
+        month_num = month_mapping[month]
+
+        # Format the date as yyyy-mm-dd
+        formatted_date = f"{year}-{month_num}-{day.zfill(2)}"
+        formatted_dates.append(formatted_date)
+    
+    return formatted_dates
         

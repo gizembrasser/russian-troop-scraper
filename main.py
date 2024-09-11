@@ -1,5 +1,5 @@
 from scraper import get_geojson_urls, get_troop_data
-from utils.dates import get_date_range
+from utils.dates import get_date_range, get_column_names
 
 
 if __name__ == "__main__":
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     geojson_urls = get_geojson_urls(date_range)
     print("API requests made to:", geojson_urls)
 
-    # # Store the necessary data from the JSON into a dataframe and convert to CSV
-    # troop_df = get_troop_data(geojson_url, start_date)
-    # troop_df.to_csv("data/russische_troepen.csv", index=False)
-    # print("CSV succesfully saved to /data folder.")
+    # Store the necessary data from the JSON into a dataframe and convert to CSV
+    troop_df = get_troop_data(geojson_urls, get_column_names(date_range))
+    troop_df.to_csv("data/russische_troepen.csv", index=False)
+    print("CSV succesfully saved to /data folder.")
