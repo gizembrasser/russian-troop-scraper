@@ -1,5 +1,6 @@
 from scraper import get_geojson_urls, get_troop_data
 from utils.dates import get_date_range, get_column_names
+from analysis.coordinates import calculate_avg_movement
 
 
 if __name__ == "__main__":
@@ -16,5 +17,6 @@ if __name__ == "__main__":
 
     # Store the necessary data from the JSON into a dataframe and convert to CSV
     troop_df = get_troop_data(geojson_urls, get_column_names(date_range))
-    troop_df.to_csv(f"data/{csv_name}.csv", index=False)
+    troop_movement_df = calculate_avg_movement(troop_df)
+    troop_movement_df.to_csv(f"data/{csv_name}.csv", index=False)
     print("CSV succesfully saved to /data folder.")
