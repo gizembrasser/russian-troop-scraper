@@ -8,6 +8,8 @@ data <- read.csv("../data/merged/2022-2024_troepen.csv", header = TRUE)
 cleaned_data <- data %>%
   filter(Militaire.eenheid != 'shoigists "storm-z"')
 
+head(cleaned_data)
+
 # List of ten military units to plot
 selected_units <- c(
   "64th Separate Motorized Rifle Brigade", 
@@ -38,18 +40,15 @@ data_long <- data_long %>%
 data_long$Latitude <- as.numeric(data_long$Latitude)
 data_long$Longitude <- as.numeric(data_long$Longitude)
 
-# Get unique military units (in this case, just the selected 10)
-unique_units <- unique(data_long$Militaire.eenheid)
-
 # Create a color palette with distinct colors for the selected military units
-colors <- colorFactor(palette = "Set1", domain = unique_units)
+colors <- colorFactor(palette = "Set1", domain = selected_units)
 
 # Initialize a leaflet map
 mymap <- leaflet() %>%
   addTiles()  # Add default OpenStreetMap tiles
 
 # Loop through each selected military unit and add markers to the map
-for (unit in unique_units) {
+for (unit in selected_units) {
   unit_data <- data_long %>%
     filter(Militaire.eenheid == unit)  # Filter for the specific military unit
   

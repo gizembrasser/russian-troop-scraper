@@ -2,7 +2,7 @@ library(leaflet)
 library(tidyr)
 library(dplyr)
 
-data <- read.csv("../data/clean/2024_troepen_EN.csv", header = TRUE)
+data <- read.csv("../data/clean/2023_troepen_EN.csv", header = TRUE)
 
 # Filter out the shoigists "storm-z" unit
 cleaned_data <- data %>%
