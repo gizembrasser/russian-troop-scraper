@@ -18,6 +18,7 @@ def add_date_column(file1, file2, output_file):
     sorted_df = merged_df[sorted_columns]
 
     sorted_df.to_csv(output_file, index=False)
+    return sorted_df
 
 
 def clean_unit_names(csv_file, output_file):
@@ -29,4 +30,5 @@ def clean_unit_names(csv_file, output_file):
     df['Militaire eenheid'] = df['Militaire eenheid'].apply(lambda x: x.split('///')[-1].strip() if '///' in x else x.strip())
 
     df.to_csv(output_file, index=False)
+    return df
 
