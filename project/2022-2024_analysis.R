@@ -10,27 +10,18 @@ cleaned_data <- data %>%
 
 head(cleaned_data)
 
-# List of ten military units to plot
-selected_units <- c(
-  "64th Separate Motorized Rifle Brigade", 
-  "56th Air Assault Regiment", 
-  "Piatnashka Battalion", 
-  "155th Separate Brigade of Marines", 
-  "200th Separate Motor Rifle Brigade", 
-  "488th Motor Rifle Regiment (from the composition of 144 MRD)", 
-  "71st Guards Motorized Rifle Regiment", 
-  "38th Separate Motorized Rifle Brigade", 
-  "810th Naval Infantry Brigade",
-  "11th Separate Assault Brigade"
-)
+# Get the 10 units that travelled the most
+top_units <- cleaned_data %>%
+  distinct(Militaire.eenheid) %>%
+  slice(1:10) %>%
+  pull(Militaire.eenheid)
 
-# Filter the data to only include the selected military units
 filtered_data <- cleaned_data %>%
-  filter(Militaire.eenheid %in% selected_units)
+  filter(Militaire.eenheid %in% top_units)
 
-# Reshape all columns (except 'Militaire eenheid') from wide to long format
+# Reshape all columns from wide to long format
 data_long <- filtered_data %>%
-  pivot_longer(cols = -Militaire.eenheid, names_to = "Date", values_to = "Coordinates")
+  pivot_longer(cols = -c(Militaire.eenheid, Totale.beweging..km.), names_to = "Date", values_to = "Coordinates")
 
 # Separate the 'Coordinates' column into 'Latitude' and 'Longitude'
 data_long <- data_long %>%
@@ -40,32 +31,15 @@ data_long <- data_long %>%
 data_long$Latitude <- as.numeric(data_long$Latitude)
 data_long$Longitude <- as.numeric(data_long$Longitude)
 
-# Create a color palette with distinct colors for the selected military units
-colors <- colorFactor(palette = "Set1", domain = selected_units)
+# Create a color palette with distinct colors for each military unit
+colors <- colorFactor(palette = "Set1", domain = data_long$Militaire.eenheid)
 
-# Initialize a leaflet map
-mymap <- leaflet() %>%
-  addTiles()  # Add default OpenStreetMap tiles
-
-# Loop through each selected military unit and add markers to the map
-for (unit in selected_units) {
-  unit_data <- data_long %>%
-    filter(Militaire.eenheid == unit)  # Filter for the specific military unit
-  
-  # Add markers for the current unit with a unique color
-  mymap <- mymap %>%
-    addCircleMarkers(
-      data = unit_data,
-      lng = ~Longitude, lat = ~Latitude,
-      popup = ~paste("Military unit:", unit, "<br>Date:", Date, "<br>Latitude:", Latitude, "<br>Longitude:", Longitude),
-      radius = 5, color = ~colors(unit), fillOpacity = 0.7,
-      group = unit
-    )
-}
-
-# Center the map around the mean of all points
-mymap <- mymap %>%
-  setView(lng = mean(data_long$Longitude, na.rm = TRUE), lat = mean(data_long$Latitude, na.rm = TRUE), zoom = 6)
-
-# Display the map
-mymap
+# Create a leaflet map and plot data for the 10 military units, each with a unique color
+leaflet(data_long) %>%
+  addTiles() %>%  # Add default OpenStreetMap tiles
+  addCircleMarkers(
+    lng = ~Longitude, lat = ~Latitude, 
+    popup = ~paste("Military unit:", Militaire.eenheid, "<br>Date:", Date, "<br>Latitude:", Latitude, "<br>Longitude:", Longitude),
+    radius = 5, color = ~colors(Militaire.eenheid), fillOpacity = 0.7
+  ) %>%
+  setView(lng = mean(data_long$Longitude, na.rm = TRUE), lat = mean(data_long$Latitude, na.rm = TRUE), zoom = 6)  # Center the map
