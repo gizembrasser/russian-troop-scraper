@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
         troop_df = get_troop_data(geojson_urls, get_column_names(date_range))
         troop_df.to_csv(f"data/{output_file}.csv", index=False)
-        print(f"{output_file}.csv successfully saved to the /data folder!")
+        print(f"{args.output_file}.csv successfully saved to the /data folder!")
     
     # Command for manually providing a list of dates from which to collect GeoJSON URLs
     if args.command == "date_list":
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
         troop_df = get_troop_data(geojson_urls, get_column_names(dates))
         troop_df.to_csv(f"data/{output_file}.csv", index=False)
-        print(f"{output_file}.csv successfully saved to the /data folder!")
+        print(f"{args.output_file}.csv successfully saved to the /data folder!")
     
     # Command to merge two DataFrames in order to add more dates
     if args.command == "merge_data":
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         output_file = f"data/merged/{args.output_file}.csv"
 
         add_date_column(file1, file2, output_file)
-        print(f"{output_file}.csv successfully saved to the /data/merged folder!")
+        print(f"{args.output_file}.csv successfully saved to the /data/merged folder!")
     
     # Command to only keep the English names in the column 'Militaire eenheid'
     if args.command == "clean_names":
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         output_file = f"data/clean/{args.output_file}.csv"
 
         clean_unit_names(csv_file, output_file)
-        print(f"{output_file}.csv successfully saved to the /data/clean folder!")
+        print(f"{args.output_file}.csv successfully saved to the /data/clean folder!")
     
     # Command to calculate the average movement between coordinates for the Russian troops
     if args.command == "total_movement":
@@ -83,4 +83,4 @@ if __name__ == "__main__":
         output_file = f"data/{args.output_file}.csv"
 
         calculate_total_movement(csv_file, output_file)
-        print(f"{output_file}.csv successfully saved to the /data folder!")
+        print(f"{args.output_file}.csv successfully saved to the /data folder!")
