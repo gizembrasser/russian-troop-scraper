@@ -1,4 +1,5 @@
 library(dplyr)
+library(ggplot2)
 
 data <- read.csv("../data/merged/2022-2024_troepen.csv", header = TRUE, stringsAsFactors = FALSE)
 
@@ -27,7 +28,6 @@ date_cols <- setdiff(names(cleaned_data), non_date_cols)
 
 # Function to calculate location changes, ignoring blanks
 location_change <- function(coord1, coord2) {
-  # Check if either coordinate is blank or missing
   if (is.na(coord1) || coord1 == "" || is.na(coord2) || coord2 == "") {
     return(FALSE)  # No change if one or both values are missing
   }
@@ -55,3 +55,22 @@ max_changes <- changes_df %>%
 
 print("The two dates with the most location changes are:")
 print(max_changes)
+
+
+# Plotting the line graph of location changes over time
+changes_df$Date2 <- as.Date(gsub("^X", "", changes_df$Date2), format = "%Y.%m.%d")
+
+# Plot the changes between dates
+ggplot(changes_df, aes(x = Date2, y = Changes)) +
+  geom_line() +
+  labs(title = "Aantal Russische troepenverplaatsingen per maand (2022-2024)", x = "", y = "Troepenverplaatsingen") +
+  scale_x_date(date_labels = "%Y-%m-%d", date_breaks = "1 month") + 
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+# Correlation between movements and distance
+correlation_analysis <- cleaned_data %>%
+  summarise(correlation = cor(Totale.beweging..km., Aantal.bewegingen, use = "complete.obs"))
+
+print(correlation_analysis)
