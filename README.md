@@ -93,3 +93,8 @@ python main.py total_movement <csv_file> <output_file>
 - `csv_file`: The input CSV file containing coordinates (without extension) and more than one date column.
 - `output_file`: The name of the output CSV file (without extension).
 
+## R analysis
+
+The `/project` folder contains R code files used to conduct the analysis. These files will print some handy statistics about the data to the console.
+
+The `/visuals` folder contains maps of Ukraine and the surrounding area with military units plotted over time, created by R's leaflet library. Right-click on one of the HTML files and select 'Copy Path', paste the URL into a browser in order to view the map.
