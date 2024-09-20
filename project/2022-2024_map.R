@@ -21,7 +21,7 @@ filtered_data <- cleaned_data %>%
 
 # Reshape all columns from wide to long format
 data_long <- filtered_data %>%
-  pivot_longer(cols = -c(Militaire.eenheid, Totale.beweging..km.), names_to = "Date", values_to = "Coordinates")
+  pivot_longer(cols = -c(Militaire.eenheid, Totale.beweging..km., Aantal.bewegingen), names_to = "Date", values_to = "Coordinates")
 
 # Separate the 'Coordinates' column into 'Latitude' and 'Longitude'
 data_long <- data_long %>%
