@@ -44,7 +44,7 @@ calculate_distance <- function(coord1, coord2) {
 # Function to determine if the location change is greater than 10 km
 location_change <- function(coord1, coord2) {
   distance <- calculate_distance(coord1, coord2)
-  return(distance > 100)  # Returns TRUE if the distance is greater than 10 km
+  return(distance > 10)  # Returns TRUE if the distance is greater than 10 km
 }
 
 changes_df <- data.frame(Date1 = character(), Date2 = character(), Changes = integer())
@@ -76,7 +76,7 @@ changes_df$Date2 <- as.Date(gsub("^X", "", changes_df$Date2), format = "%Y.%m.%d
 # Plot the changes between dates
 ggplot(changes_df, aes(x = Date2, y = Changes)) +
   geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Aantal Russische troepenverplaatsingen per maand (2022-2024)", x = "", y = "Verplaatsingen (boven 100 km)") +
+  labs(title = "Aantal Russische troepenverplaatsingen per maand (2022-2024)", x = "", y = "Verplaatsingen (boven 10 km)") +
   scale_x_date(date_labels = "%Y-%m-%d", date_breaks = "1 month") + 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
