@@ -21,7 +21,7 @@ if __name__ == "__main__":
     merge_data = subparsers.add_parser("merge_data", help="Merge two DataFrames in order to add more date columns")
     merge_data.add_argument("file1", help="Provide the name of the first input CSV file to merge (without extension)")
     merge_data.add_argument("file2", help="Provide the name of the second input CSV file to merge (without extension)")
-    date_range.add_argument("output_file", help="Provide the name for the output CSV file (without extension)")
+    merge_data.add_argument("output_file", help="Provide the name for the output CSV file (without extension)")
 
     clean_names = subparsers.add_parser("clean_names", help="Remove the Ukrainian name from the column 'Militaire eenheid' and only keep the English name")
     clean_names.add_argument("csv_file", help="Provide the name of the input CSV file to clean (without extension)")
@@ -56,7 +56,7 @@ if __name__ == "__main__":
         
         geojson_urls = get_geojson_urls(parsed_dates)
 
-        troop_df = get_troop_data(geojson_urls, get_column_names(dates))
+        troop_df = get_troop_data(geojson_urls, get_column_names(parsed_dates))
         troop_df.to_csv(f"data/{output_file}.csv", index=False)
         print(f"{args.output_file}.csv successfully saved to the /data folder!")
     

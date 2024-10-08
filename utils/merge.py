@@ -11,11 +11,17 @@ def add_date_column(file1, file2, output_file):
 
     merged_df = pd.merge(df1, df2, on='Militaire eenheid', how='outer')
 
+    # For columns common to both, use the values from df1
+    for col in df1.columns:
+        if col in df2.columns and col != 'Militaire eenheid':
+            merged_df[col] = merged_df[col + '_x'].combine_first(merged_df[col + '_y'])
+            merged_df.drop(columns=[col + '_x', col + '_y'], inplace=True)
+
     # Identify date columns and sort them in ascending order
     date_columns = [col for col in merged_df.columns if col != 'Militaire eenheid' and pd.to_datetime(col, format='%Y-%m-%d', errors='coerce') is not pd.NaT]
     sorted_columns = ['Militaire eenheid'] + sorted(date_columns, key=lambda x: pd.to_datetime(x))
 
-    sorted_df = merged_df[sorted_columns]
+    sorted_df = merged_df[sorted_columns + [col for col in merged_df.columns if col not in sorted_columns]]
 
     sorted_df.to_csv(output_file, index=False)
     return sorted_df
