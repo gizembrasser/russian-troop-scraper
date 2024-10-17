@@ -93,6 +93,18 @@ python main.py total_movement <csv_file> <output_file>
 - `csv_file`: The input CSV file containing coordinates (without extension) and more than one date column.
 - `output_file`: The name of the output CSV file (without extension).
 
+### 6. Collect data per Oblast
+
+To only gather data for one date for a specific Oblast, use the following command. Provide the name of the Oblast, the date and a name for the output CSV file.
+
+```
+python main.py oblast_data <oblast_name> <date> <output_file>
+```
+
+- `oblast_name`: The name of the Oblast to use as a filter (for example: 'donetsk oblast').
+- `date`: A date in yyyy-mm-dd format.
+- `output_file`: The name of the output CSV file (without extension).
+
 ## R analysis
 
 The `/project` folder contains R code files used to conduct the analysis. These files will print some handy statistics about the data to the console.
