@@ -33,7 +33,7 @@ if __name__ == "__main__":
     total_movement.add_argument("output_file", help="Provide the name for the output CSV file (without extension)")
 
     oblast_data = subparsers.add_parser("oblast_data", help="Gather troop names and locations for one date in a specific Oblast")
-    oblast_data.add_argument("oblast_name", help="Provide the name of the Oblast (for example: 'donetsk oblast')")
+    oblast_data.add_argument("oblast_name", help="Provide the name of the Oblast (for example: 'donetsk')")
     oblast_data.add_argument("date", nargs="+", help="Provide a date to gather data from in format yyyy-mm-dd")
     oblast_data.add_argument("output_file", help="Provide the name for the output CSV file (without extension)")
 
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     
     # Command to gather data on troops in a specific oblast for one date
     if args.command == "oblast_data":
-        oblast_name = args.oblast_name
+        oblast_name = f"{args.oblast_name} oblast"
         dates = args.date
         output_file = args.output_file
 

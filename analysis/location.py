@@ -1,6 +1,6 @@
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
-from coordinates import parse_coordinates
+from analysis.coordinates import parse_coordinates
 
 
 def get_oblast(lat, lon):
@@ -29,7 +29,7 @@ def filter_oblast(df, oblast_name):
     """
     Function to filter rows of a DataFrame where the coordinate's oblast doesn't match the provided oblast name.
     """
-    coord_column = df.loc[:, 1] # Second column contains the coordinates
+    coord_column = df.iloc[:, 1] # Second column contains the coordinates
 
     def is_in_oblast(coord_str):
         # Parse the coordinates
@@ -47,7 +47,7 @@ def filter_oblast(df, oblast_name):
 
     # Filter the DataFrame
     mask = coord_column.apply(is_in_oblast)
-    
+
     filtered_df = df[mask].copy()
     return filtered_df
 

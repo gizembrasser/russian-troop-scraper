@@ -101,7 +101,7 @@ To only gather data for one date for a specific Oblast, use the following comman
 python main.py oblast_data <oblast_name> <date> <output_file>
 ```
 
-- `oblast_name`: The name of the Oblast to use as a filter (for example: 'donetsk oblast').
+- `oblast_name`: The name of the Oblast to use as a filter (for example: 'donetsk').
 - `date`: A date in yyyy-mm-dd format.
 - `output_file`: The name of the output CSV file (without extension).
 
