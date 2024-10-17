@@ -2,7 +2,7 @@ import argparse
 from scraper import get_geojson_urls, get_troop_data
 from utils.dates import get_date_range, get_column_names, parse_date
 from utils.merge import add_date_column, clean_unit_names
-from analysis.coordinates import calculate_total_movement
+from analysis.movement import calculate_total_movement
 from analysis.location import filter_oblast
 
 

@@ -5,7 +5,7 @@ from analysis.coordinates import parse_coordinates
 
 def get_oblast(lat, lon):
     """
-    Function to return the name of the Russian or Ukrainian oblast (region) fro a given coordinate.
+    Function to return the name of the Russian or Ukrainian oblast (region) from a given coordinate.
     """
     try:
         # Use Nominatim geocoder
