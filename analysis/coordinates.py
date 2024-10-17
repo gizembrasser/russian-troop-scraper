@@ -39,6 +39,22 @@ def count_movements(row, date_columns):
     return movement_count
 
 
+def calculate_yearly_distance(row, date_columns):
+    """
+    Function to calculate the distance between the first and last valid (non-empty) coordinates in a row, being the yearly distance.
+    """
+    coords = [parse_coordinates(row[date]) for date in date_columns]
+
+    # Find the first and last non-empty coordinate
+    first_coord = next((coord for coord in coords if coord is not None), None)
+    last_coord = next((coord for coord in reversed(coords) if coord is not None), None)
+
+    # Calculate the yearly distance
+    if first_coord and last_coord:
+        return calculate_distance(first_coord, last_coord)
+    return 0
+
+
 def calculate_total_movement(csv_file, output_file):
     """
     Calculate total movement (in km) and number of movements for each row in the dataframe.
@@ -49,6 +65,7 @@ def calculate_total_movement(csv_file, output_file):
 
     df["Totale beweging (km)"] = 0.0
     df["Aantal bewegingen"] = 0
+    df["Jaarlijkse beweging (km)"] = 0.0
 
     # Iterate over each row and calculate total movement
     for idx, row in df.iterrows():
@@ -67,6 +84,9 @@ def calculate_total_movement(csv_file, output_file):
 
         # Calculate and set the number of movements (coordinate changes)
         df.at[idx, "Aantal bewegingen"] = count_movements(row, date_columns)
+
+        # Calculate and set the yearly distance
+        df.at[idx, "Jaarlijkse beweging (km)"] = calculate_yearly_distance(row, date_columns)
     
     # Sort the DataFrame based on the average movement
     df_sorted = df.sort_values(by="Totale beweging (km)", ascending=False)

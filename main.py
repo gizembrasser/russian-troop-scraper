@@ -3,6 +3,7 @@ from scraper import get_geojson_urls, get_troop_data
 from utils.dates import get_date_range, get_column_names, parse_date
 from utils.merge import add_date_column, clean_unit_names
 from analysis.coordinates import calculate_total_movement
+from analysis.location import filter_oblast
 
 
 if __name__ == "__main__":
@@ -30,6 +31,11 @@ if __name__ == "__main__":
     total_movement = subparsers.add_parser("total_movement", help="Calculate the total movement for each troop in km from a CSV file of coordinates")
     total_movement.add_argument("csv_file", help="Provide the name of the input CSV file to clean (without extension)")
     total_movement.add_argument("output_file", help="Provide the name for the output CSV file (without extension)")
+
+    oblast_data = subparsers.add_parser("oblast_data", help="Gather troop names and locations for one date in a specific Oblast")
+    oblast_data.add_argument("oblast_name", help="Provide the name of the Oblast (for example: 'donetsk oblast')")
+    oblast_data.add_argument("date", nargs="+", help="Provide a date to gather data from in format yyyy-mm-dd")
+    oblast_data.add_argument("output_file", help="Provide the name for the output CSV file (without extension)")
 
     args = parser.parse_args()
 
@@ -83,4 +89,20 @@ if __name__ == "__main__":
         output_file = f"data/{args.output_file}.csv"
 
         calculate_total_movement(csv_file, output_file)
+        print(f"{args.output_file}.csv successfully saved to the /data folder!")
+    
+    # Command to gather data on troops in a specific oblast for one date
+    if args.command == "oblast_data":
+        oblast_name = args.oblast_name
+        dates = args.date
+        output_file = args.output_file
+
+        parsed_dates = [parse_date(date) for date in dates]
+
+        geojson_urls = get_geojson_urls(parsed_dates)
+
+        troop_df = get_troop_data(geojson_urls, get_column_names(parsed_dates))
+
+        oblast_df = filter_oblast(troop_df, oblast_name)
+        oblast_df.to_csv(f"data/{output_file}.csv", index=False)
         print(f"{args.output_file}.csv successfully saved to the /data folder!")
