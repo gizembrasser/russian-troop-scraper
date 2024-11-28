@@ -38,3 +38,27 @@ def clean_unit_names(csv_file, output_file):
     df.to_csv(output_file, index=False)
     return df
 
+
+def match_units(df):
+    """
+    Reads a CSV file, finds duplicate rows in the 'Militaire eenheid' column, and fills missing values 
+    in one row with values from another row where data is available.
+    """
+    grouped = df.groupby("Militaire eenheid")
+
+    # Iterate through each group and fill missing values in-place
+    for _, group in grouped:
+        if len(group) > 1:
+            # Forward and backward fill the msising values in each group
+            filled_group = group.ffill().bfill()
+
+            # Update only missing values in the original dataframe
+            for idx in group.index:
+                for col in group.columns:
+                    if pd.isna(df.loc[idx, col]):
+                        df.loc[idx, col] = filled_group.loc[idx, col]
+    
+    # Remove duplicate rows based on 'Militaire eenheid'
+    df = df.drop_duplicates(subset="Militaire eenheid", keep="first")             
+    return df
+

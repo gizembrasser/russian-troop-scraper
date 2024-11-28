@@ -1,7 +1,7 @@
 import argparse
 from scraper import get_geojson_urls, get_troop_data
 from utils.dates import get_date_range, get_column_names, parse_date
-from utils.merge import add_date_column, clean_unit_names
+from utils.merge import add_date_column, clean_unit_names, match_units
 from analysis.movement import calculate_total_movement
 from analysis.location import filter_oblast
 
@@ -50,7 +50,11 @@ if __name__ == "__main__":
         geojson_urls = get_geojson_urls(date_range)
 
         troop_df = get_troop_data(geojson_urls, get_column_names(date_range))
-        troop_df.to_csv(f"data/{output_file}.csv", index=False)
+
+        # Merge duplicate values from 'Militaire eenheid' and their location data
+        unique_df = match_units(troop_df)
+
+        unique_df.to_csv(f"data/{output_file}.csv", index=False)
         print(f"{args.output_file}.csv successfully saved to the /data folder!")
     
     # Command for manually providing a list of dates from which to collect GeoJSON URLs
@@ -63,7 +67,10 @@ if __name__ == "__main__":
         geojson_urls = get_geojson_urls(parsed_dates)
 
         troop_df = get_troop_data(geojson_urls, get_column_names(parsed_dates))
-        troop_df.to_csv(f"data/{output_file}.csv", index=False)
+
+        unique_df = match_units(troop_df)
+
+        unique_df.to_csv(f"data/{output_file}.csv", index=False)
         print(f"{args.output_file}.csv successfully saved to the /data folder!")
     
     # Command to merge two DataFrames in order to add more dates
@@ -103,6 +110,8 @@ if __name__ == "__main__":
 
         troop_df = get_troop_data(geojson_urls, get_column_names(parsed_dates))
 
+        # Filter the dataframe by oblast
         oblast_df = filter_oblast(troop_df, oblast_name)
+
         oblast_df.to_csv(f"data/{output_file}.csv", index=False)
         print(f"{args.output_file}.csv successfully saved to the /data folder!")
