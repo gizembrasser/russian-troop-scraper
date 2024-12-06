@@ -2,6 +2,8 @@
 
 This program allows you to retrieve data on Russian troop positions for specific dates or range of dates. The program will fetch the coordinates for each date and names of the military units provided by the [DeepStateMAP](https://deepstatemap.live/#8/51.1569543/34.6343994) API, and save it to a CSV file for further analysis.
 
+Read about how the program was used to map troop movements during the Kursk incursion [here](https://www.volkskrant.nl/kijkverder/v/2024/troepenbewegingen-ontleed-russische-troepen-bewegen-nauwelijks-ondanks-de-oekraiense-inval-in-rusland~v1195606/). 
+
 ## Requirements
 
 To run this program, you will need:
@@ -23,6 +25,8 @@ Before you start, you'll need to set up your computer to run the program. Follow
 ```
 pip install -r requirements.txt
 ```
+
+*Note: if the Selenium Chrome WebDriver doesn't work it might be necessary to download the [correct version](https://developer.chrome.com/docs/chromedriver/downloads#chromedriver_1140573590) for your Google Chrome. In that case, replace contents of the `driver/` folder in this repo with the right version.* 
 
 ## How to use the program
 
@@ -107,6 +111,6 @@ python main.py oblast_data <oblast_name> <date> <output_file>
 
 ## R analysis
 
-The `/project` folder contains R code files used to conduct the analysis. These files will print some handy statistics about the data to the console.
+The `/project` folder contains R code files used to conduct the analysis. These files will print statistics about the data to the console.
 
 The `/visuals/maps` folder contains maps of Ukraine and the surrounding area with military units plotted over time, created by R's leaflet library. Right-click on one of the HTML files and select 'Copy Path', paste the URL into a browser in order to view the map.
