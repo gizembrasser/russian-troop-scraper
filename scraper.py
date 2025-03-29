@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 
@@ -27,10 +28,19 @@ def get_geojson_urls(date_list):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("--disable-search-engine-choice-screen")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36")
+
+    # Disable SSL verification in Selenium Wire
+    seleniumwire_options = {'verify_ssl': False}
 
     driver_path = os.path.join(os.getcwd(), "driver", "chromedriver.exe")
 
-    driver = webdriver.Chrome(service=Service(driver_path), options=chrome_options)
+    # driver = webdriver.Chrome(service=Service(driver_path), options=chrome_options)
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=chrome_options,
+        seleniumwire_options=seleniumwire_options
+    )
     
     try:
         driver.get("https://deepstatemap.live/en#6/50.4505091/36.2329102")
