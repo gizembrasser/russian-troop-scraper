@@ -2,7 +2,7 @@
 
 This program allows you to retrieve data on Russian troop positions for specific dates and regions. The program will fetch the coordinates for each date and names of the military units provided by the [DeepStateMAP](https://deepstatemap.live/#8/51.1569543/34.6343994) API, and save it to a CSV file for further analysis.
 
-Read about how the program was used in *de Volkskrant* to map troop movements during the Kursk incursion [here](https://www.volkskrant.nl/kijkverder/v/2024/troepenbewegingen-ontleed-russische-troepen-bewegen-nauwelijks-ondanks-de-oekraiense-inval-in-rusland~v1195606/). 
+Read about how the program was used in *de Volkskrant* to map troop movements during the Kursk incursion [here](https://www.volkskrant.nl/kijkverder/v/2024/troepenbewegingen-ontleed-russische-troepen-bewegen-nauwelijks-ondanks-de-oekraiense-inval-in-rusland~v1195606/), or click [here](#r-analysis) for more usage examples.
 
 ## Requirements
 
